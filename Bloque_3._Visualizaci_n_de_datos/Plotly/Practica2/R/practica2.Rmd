@@ -1,0 +1,49 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+PRÁCTICA 2, EJERCICIO 1:
+
+
+```{r}
+
+setwd(".")
+
+list.of.packages <- c("plotly", "dplyr", "quantmod","ggplot2", "forcats")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+lapply(list.of.packages, require, character.only=TRUE)
+
+head(mpg)
+
+p <- mpg %>% group_by() %>% summarise() #agrupa y condensa
+# equivalente a : summarise(group_by(...),...)
+p <- p %>% mutate() #reordena, prueba a comentar esta línea, ¿que sucede?, ¿es buena la visibilidad?
+print(p)
+
+plt <- plot_ly() %>% add_segments()
+plt <- plt %>% add_markers() %>% add_markers()
+plt %>% layout()
+
+
+```
+
+ 
+ PRÁCTICA 2, EJERCICIO 2:
+
+```{r}
+
+msft <- getSymbols("MSFT", auto.assign = F)
+dat <- as.data.frame()
+dat$date <- index()
+
+dat <- subset(dat, date >= "2016-01-01")
+names(dat) <- sub("^MSFT.", "", names(dat))
+
+p <- plot_ly() %>% .....
+p <- p %>% layout()
+p %>% rangeslider()
+
+```
+

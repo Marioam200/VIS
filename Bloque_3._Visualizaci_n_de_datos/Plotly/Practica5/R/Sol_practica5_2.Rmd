@@ -1,0 +1,90 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+PRÁCTICA 5, PREPARACIÓN:
+
+```{r}
+
+setwd(".")
+
+list.of.packages <- c("plotly", "dplyr", "WDI", "purrr")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+lapply(list.of.packages, require, character.only=TRUE)
+
+
+birth <- "SP.DYN.CBRT.IN"
+infmort <- "SP.DYN.IMRT.IN"
+net <-"IT.NET.USER.ZS"
+lifeexp <- "SP.DYN.LE00.IN"
+forest <- "AG.LND.FRST.ZS"
+mobile <- "IT.CEL.SETS.P2"
+pop <- "SP.POP.TOTL"
+tour <- "ST.INT.RCPT.CD"
+import <- "TM.VAL.MRCH.XD.WD"
+export <- "TX.VAL.MRCH.XD.WD"
+
+# create a vector of the desired indicator series
+indicators <- c(birth, infmort, net, lifeexp, forest,
+                mobile, pop, tour, import, export)
+
+countries <- WDI(country="all", indicator = indicators, 
+     start = 1998, end = 2018, extra = TRUE)
+
+## rename columns for each of reference
+countries <- rename(countries, birth = SP.DYN.CBRT.IN, 
+       infmort = SP.DYN.IMRT.IN, net  = IT.NET.USER.ZS,
+       lifeexp = SP.DYN.LE00.IN, forest = AG.LND.FRST.ZS,
+       mobile = IT.CEL.SETS.P2, pop = SP.POP.TOTL, 
+       tour = ST.INT.RCPT.CD, import = TM.VAL.MRCH.XD.WD,
+       export = TX.VAL.MRCH.XD.WD)
+
+# convert geocodes from factors into numerics
+
+countries$lng <- as.numeric(as.character(countries$longitude))
+countries$lat <- as.numeric(as.character(countries$latitude))
+countries$import <- as.numeric(as.character(countries$import))
+countries$export <- as.numeric(as.character(countries$export))
+
+# Remove groupings, which have no geocodes
+countries <- countries %>%
+   filter(!is.na(lng))
+
+```
+
+PRÁCTICA 5, EJERCICIO 1:
+
+```{r}
+
+p <- countries %>% ...
+p
+
+```
+
+PRÁCTICA 5, EJERCICIO 2:
+
+```{r}
+
+
+p <- countries %>% ...
+                           
+p
+
+
+```
+
+PRÁCTICA 5, EJERCICIO 3:
+
+```{r}
+
+prep <- countries %>% filter(region == "Europe & Central Asia") %>% split(.$year) %>% accumulate(~bind_rows(.x,.y)) %>% set_names(1998:2018) %>% bind_rows(.id="frame") 
+
+prep %>% plot_ly() %>% add_lines()
+
+
+```
+
+
+

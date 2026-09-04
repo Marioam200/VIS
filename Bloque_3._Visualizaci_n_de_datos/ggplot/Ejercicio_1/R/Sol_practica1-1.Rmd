@@ -1,0 +1,78 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+PRÁCTICA 1 EJERCICIO 1:
+
+```{r}
+
+setwd(".")
+
+list.of.packages <- c("ggplot2")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+lapply(list.of.packages, require, character.only=TRUE)
+
+QTC <- read.csv("")
+
+p <- ggplot() + geom_xxx() #Hay que sustituir los xxx por el geom correspondiente
+p+geom_xxx()
+p+geom_xxx(method = 'lm')
+
+
+```
+
+PRÁCTICA 1 EJERCICIO 2:
+
+```{r}
+
+p <- ggplot() + geom_xxx() + ggtitle("Relación K1 y K2") + theme(plot.title = element_text(hjust = 0.5))
+p+geom_
+
+
+```
+
+
+PÁCTICA 1 EJERCICIO 3:
+
+```{r}
+
+p <- ggplot() + ...
+p
+
+
+```
+
+
+PRÁCTICA 1 EJERCICIO 4:
+
+```{r}
+
+p <- ggplot() + geom_bar()
+p
+
+```
+
+
+PRÁCTICA 1 EJERCICIO 5:
+
+```{r}
+
+p <- ggplot() + geom_xxx() + facet_grid(diam~na)
+p
+
+```
+
+
+PRÁCTICA 1 EJERCICIO 6:
+
+```{r}
+
+p1 <- ggplot() + geom_boxplot()
+p2 <- ggplot() + geom_boxplot()
+p1
+p2
+
+```
+

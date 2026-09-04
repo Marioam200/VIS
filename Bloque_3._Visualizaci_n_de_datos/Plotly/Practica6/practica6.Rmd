@@ -1,0 +1,28 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+PRÁCTICA 6:
+
+```{r}
+
+
+setwd(".")
+
+list.of.packages <- c("plotly", "dplyr", "crosstalk")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+lapply(list.of.packages, require, character.only=TRUE)
+
+
+
+
+
+
+
+
+```
+
+
+

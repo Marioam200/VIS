@@ -1,0 +1,50 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+PRÁCTICA 4, EJERCICIO 1:
+
+```{r}
+
+
+setwd(".")
+
+list.of.packages <- c("ggplot2", "scales", "reshape2", "dplyr")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+lapply(list.of.packages, require, character.only=TRUE)
+
+
+outcome <- read.csv("outcome-of-care-measures.csv")
+outcomesel <- outcome[...]
+colnames(outcomesel)[...] <- c(...)
+...
+outcomesel
+
+molten <- melt(..., id=...) 
+s <- ...
+s
+
+p <- ggplot(s, aes(x=...)) +  ....
+
+```
+
+
+PRÁCTICA 4, EJERCICIO 2:
+
+```{r}
+
+outcome <- read.csv(...)
+hospital <- read.csv(...)
+
+outcome.hospital <- inner_join(...)
+outcome.hospital[,11] <- as.numeric(outcome.hospital[,11])
+outcome.hospital[,15] <- as.numeric(outcome.hospital[,15])
+
+outcome.hospital$Hospital.Ownership <- factor(...)
+ 
+p <- ggplot(..., aes(..., ...)) + ...
+
+```
+

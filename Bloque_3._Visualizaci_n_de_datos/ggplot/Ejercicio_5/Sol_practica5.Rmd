@@ -1,0 +1,75 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+PRÁCTICA 5, EJERCICIO 1:
+
+```{r}
+
+setwd(".")
+
+list.of.packages <- c("ggplot2", "grid")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+lapply(list.of.packages, require, character.only=TRUE)
+
+library(ggplot2)
+library(grid)
+set.seed(288)
+
+#creamos el data set random
+xvar <- c(rnorm(1500, mean=-1), rnorm(1500, mean=1.5))
+yvar <- c(rnorm(1500, mean=1), rnorm(1500, mean=1.5))
+zvar <- as.factor(c(rep(1,1500), rep(2,1500))) 
+xy <- data.frame(xvar, yvar, zvar)
+xy
+
+# rug plot
+ggplot(xy, aes(xvar, yvar)) + geom_point() + geom_rug(col="darkred", alpha=0.1)
+
+
+```
+
+ PRÁCTICA 5, EJERCICIO 2:
+ 
+```{r}
+
+p <- ggplot(...) + geom_point() + scale_colour_manual(...) 
+Scatter <- p + theme(legend.position.inside = ..., legend.justification = ...) 
+Scatter
+
+```
+ 
+PRÀCTICA 5, EJERCICIO 3:
+
+```{r}
+p <- ggplot(...) + geom_density() + ...
+den1 <- ...
+den1
+
+```
+
+PRÁCTICA 5, EJERCICIO 4:
+
+```{r}
+
+p <- ggplot(...) + geom_density() + ...
+den2 <- p + theme(legend.position = "none",...) + ...
+den2
+
+```
+
+PRÁCTICA 5, EJERCICIO 5:
+
+```{r}
+
+grid.newpage()
+pushViewport(...)
+print(den1, ...)
+print(Scatter, ...)
+print(den2, ...)
+
+
+```
+

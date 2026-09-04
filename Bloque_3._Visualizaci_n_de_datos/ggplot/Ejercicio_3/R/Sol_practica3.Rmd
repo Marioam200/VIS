@@ -1,0 +1,43 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+PRÁCTICA 3:
+
+```{r}
+
+setwd(".")
+
+list.of.packages <- c("ggplot2", "sf", "dplyr")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+lapply(list.of.packages, require, character.only=TRUE)
+
+
+datos <- read.csv(...)
+datos <- rename(datos, sovereignt=X)
+datos$Life.expectancy.at.birth..years. <- as.numeric(as.character(datos$Life.expectancy.at.birth..years.))
+
+mundo <- st_read("ne_110m_admin_0_countries.shp")
+ggplot(...) + geom_sf()
+mundo.f <- inner_join(mundo, datos)
+mundo.f.1990 <- filter(mundo.f, X.1 == 1990)
+mundo.f.2013 <- filter(mundo.f, X.1 == 2013)
+
+gmundo1990 <- ggplot(...) + geom_sf() + scale_fill_gradient() + ... + theme(plot.title = element_text(hjust=0.5))
+gmundo2013 <- ggplot(...) + ...
+
+
+gmundo1990
+
+gmundo2013
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
