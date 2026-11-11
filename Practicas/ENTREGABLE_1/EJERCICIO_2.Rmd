@@ -1,0 +1,45 @@
+---
+title: "Ejercicio 2 - ggplot y outcome-of-care-measures-1"
+author: "Mario Álvarez Martínez"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+library(ggplot2)
+library(reshape2)
+datos <- read.csv("outcome-of-care-measures-1.csv")
+```
+
+### 1.- Gráfico de los ratios de mortalidad por ataque cardíaco en periodos de 30 días.
+```{r}
+datos[, 11]<- as.numeric(datos[, 11])
+ggplot(datos, aes(x=datos[, 11])) + geom_histogram(aes(y=after_stat(density)), bins=20) +  geom_density(colour="red") + xlab("Ratio  de muertes en 30 días") + ggtitle("Ataques al corazón.Ratio de muertes en 30 días") + scale_x_continuous(limits = c(10, 20))
+```
+
+### 2.- Gráfico comparativo de los ratios de mortalidad en 30 días por ataque al corazón, 
+### fallo cardíaco y pneumonía. 
+```{r}
+datos_ejercicio_2 <- datos[, c(11, 17, 23)]
+colnames(datos_ejercicio_2) <- c("Heart_Attack", "Cardiac_Failure", "Pneumonia")
+datos_ejercicio_2$Heart_Attack <- as.numeric(datos_ejercicio_2$Heart_Attack)
+datos_ejercicio_2$Cardiac_Failure <- as.numeric(datos_ejercicio_2$Cardiac_Failure)
+datos_ejercicio_2$Pneumonia <- as.numeric(datos_ejercicio_2$Pneumonia)
+datos_final <- melt(datos_ejercicio_2)
+head(datos_final)
+```
+```{r}
+ggplot(datos_final, aes(x=value, fill=variable)) + geom_density(alpha=0.2) + scale_x_continuous(limits = c(5, 20)) + xlab("Ratio de muertes cada 30 días") + labs(fill="Tipologia")
+```
+
+### 3.Gráfico del ratio de muertes cada 30 días por estado de EEUU. 
+```{r}
+datos1 <- subset(datos, table(datos$State)[datos$State] > 20)
+datos_final<- subset(datos1, datos1[, 11] != "Not Available")
+ggplot(datos_final, aes(x=State, y =datos_final[, 11])) + geom_boxplot() + xlab("Estado") + ylab("Ratio de muertes cada 30 días") + ggtitle("Ratio de muertes por ataque al corazón") + theme(axis.text.x = element_text(angle = 90))
+```
+```{r}
+ggplot(datos_final, aes(reorder(State, -datos_final[,11], FUN=median), y= datos_final[, 11])) + geom_boxplot() + xlab("Estado") + ylab("Ratio de muertes en 30 días") + ggtitle("Ratio de muertes por ataque al corazón") + theme(axis.text.x = element_text(angle = 90))
+```

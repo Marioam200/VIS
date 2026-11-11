@@ -1,0 +1,61 @@
+---
+title: "Ejercicio 1 - ggplot y queratocono"
+author: "Mario Álvarez Martínez"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+library(ggplot2)
+datos <- read.csv("Queratocono-1.csv")
+```
+## 1. Estudiar la relación de K1 y K2 a la que se añadirá un resumen estadístico en 
+## forma  de  curva  de  regresión  y  otra  gráfica  del  mismo  tipo  pero  con  un 
+## resumen estadístico en forma de recta de regresión (regresión lineal). Las 
+## gráficas deberán mostrar el aspecto de las mostradas en la figura 1.
+```{r}
+ggplot(datos, aes(x=K1, y=K2)) +
+  geom_point() + geom_point() + geom_smooth()
+```
+```{r}
+ggplot(datos, aes(x=K1, y=K2)) +
+  geom_point() + geom_point() + geom_smooth(method = "lm")
+```
+
+## 2. Estudiar la relación de K1 y K2 diferenciando por el factor na conforme se 
+## muestra en la figura 2 (ten en cuenta que esta gráfica tiene título).
+```{r}
+ggplot(datos, aes(x=K1, y=K2, color=factor(na))) + geom_point() + geom_smooth(method = "lm") + ggtitle("Relación K1 y K2")
+```
+
+## 3 Estudiar la relación entre K1 y K1.salida
+```{r}
+ggplot(datos, aes(x=K1, y=K1.salida)) + geom_point()
+```
+
+## 4. Construir un gráfico de barras en base al grosor1 del anillo implantado.
+
+```{r}
+ggplot(datos, aes(x=factor(grosor), fill=factor(na))) + geom_bar(position= "stack")
+```
+
+## 5. Construir un gráfico de distribución respecto a la relación entre K1 y K2 
+## “faceteado” en base a los parámetros diam y na asignando diferentes colores 
+## a  los  puntos  en  función  del  grosor  del  anillo.  Para  poder  visualizar 
+## correctamente todos los puntos utiliza una trasparencia de valor 1/3 (i.e. 
+## alpha=I(1/3)) 
+```{r}
+ggplot(datos, aes(x=K1, y=K2, color=factor(grosor))) + geom_point(alpha=I(1/3)) + facet_grid(diam~na)
+```
+## 6. Crea  dos  gráficos  de  tipo  boxplot  que  muestre  un  resumen  de  las 
+## distribuciones de K1 y de K2 (por separado, no hay que unirlos) respecto del 
+## grosor conforme muestra la figura 6.
+```{r}
+ggplot(datos, aes(x=factor(grosor), y=K1)) + geom_boxplot()
+```
+
+```{r}
+ggplot(datos, aes(x=factor(grosor), y=K2)) + geom_boxplot()
+```
