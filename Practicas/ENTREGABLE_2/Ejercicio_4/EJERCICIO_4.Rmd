@@ -1,0 +1,50 @@
+---
+title: "Ejercicio 3 - Análisis de información geográfica"
+author: "Mario Álvarez Martínez"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+---
+```{r setup, include=FALSE}
+library(scales)
+library(reshape2)
+library(ggplot2)
+library(dplyr)
+outcome <- read.csv("outcome-of-care-measures.csv")
+```
+```{r}
+outcomesel <- outcome[, c(11, 17, 23)]
+colnames(outcomesel) <- c("Heart Attack", "Cardiac Arrest", "Pneumonia")
+```
+```{r}
+molten <- melt(outcomesel, measure.vars = 1:3)
+```
+```{r}
+s <- subset(molten, value != "Not Available" & value != "NaN")
+s$value <- as.numeric(s$value)
+```
+```{r}
+ggplot(s, aes(x = value)) +
+  facet_grid(variable ~ .) +
+  geom_histogram() +
+  xlab("Ratio de muertes cada 30 días")
+```
+```{r}
+hospital <- read.csv("hospital-data-1.csv")
+outcome.hospital <- inner_join(outcome, hospital, by = "Provider.Number")
+```
+```{r}
+outcome.hospital[, 11] <- as.numeric(outcome.hospital[, 11])
+outcome.hospital[, 15] <- as.numeric(outcome.hospital[, 15])
+outcome.hospital$Hospital.Ownership <- factor(outcome.hospital$Hospital.Ownership)
+```
+```{r}
+ggplot(outcome.hospital, aes(x = outcome.hospital[, 15], y = outcome.hospital[, 11])) + geom_point() +
+ggtitle("Ataques al corazón cada 30 días por tipo de hospital") +
+xlab("Número de pacientes visitados") +
+ylab("Ratio de muertes cada 30 días") +
+geom_smooth(method = "lm") +
+facet_wrap(~ Hospital.Ownership) +
+theme(plot.title = element_text(hjust = 0.5))
+```
